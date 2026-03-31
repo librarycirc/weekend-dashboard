@@ -297,6 +297,45 @@ textarea:focus{outline:none;border-color:var(--blue)}
     </div>
   </div>
 
+  <!-- ISSUE & INCIDENT REPORT -->
+  <div class="card">
+    <div class="card-title"><span class="ic">🔴</span> Issue &amp; Incident Report</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">If you find any facility damage or equipment failure, please take a photo and upload it to the library shared folder. Then fill in the details below and save.</p>
+
+    <a class="em-btn em-blue" href="https://app.box.com" target="_blank" style="display:inline-flex;flex-direction:row;align-items:center;gap:10px;padding:11px 18px;border-radius:var(--r);margin-bottom:18px;text-decoration:none;font-family:inherit;">
+      <span style="font-size:18px;">📁</span>
+      <div>
+        <div style="font-size:13px;font-weight:700;">Upload Photo to Shared Folder</div>
+        <div style="font-size:11px;opacity:.8;">Library Cloud / Box Folder</div>
+      </div>
+    </a>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Location</label>
+        <input id="issue-loc" type="text" placeholder="e.g. 2F Reading Room, Scanner, Entrance" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Description</label>
+        <input id="issue-desc" type="text" placeholder="e.g. Ceiling light flickering, chair leg broken" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Uploaded File Name</label>
+        <input id="issue-file" type="text" placeholder="e.g. IMG_0423.jpg" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;">
+      💡 After filling in the fields, click <strong>Save Report</strong> below. Your entry will be stored in the browser so the coordinator can review it on Monday morning.
+    </p>
+
+    <div class="memo-actions">
+      <span class="memo-saved" id="issue-saved">✓ Report saved to browser</span>
+      <button class="btn" onclick="clearIssue()">Clear</button>
+      <button class="btn btn-primary" onclick="saveIssue()">Save Report</button>
+    </div>
+  </div>
+
   <!-- MONDAY HANDOVER MEMO -->
   <div class="card">
     <div class="card-title"><span class="ic">📝</span> Monday Handover Memo</div>
@@ -382,6 +421,28 @@ function chk(item){
   updateProg();
 }
 
+function saveIssue(){
+  localStorage.setItem('wk_issue',JSON.stringify({
+    loc:document.getElementById('issue-loc').value,
+    desc:document.getElementById('issue-desc').value,
+    file:document.getElementById('issue-file').value
+  }));
+  const el=document.getElementById('issue-saved');
+  el.style.display='inline';
+  setTimeout(()=>el.style.display='none',2500);
+}
+function clearIssue(){
+  ['issue-loc','issue-desc','issue-file'].forEach(id=>document.getElementById(id).value='');
+  localStorage.removeItem('wk_issue');
+}
+(function loadIssue(){
+  const s=localStorage.getItem('wk_issue');
+  if(!s)return;
+  const d=JSON.parse(s);
+  document.getElementById('issue-loc').value=d.loc||'';
+  document.getElementById('issue-desc').value=d.desc||'';
+  document.getElementById('issue-file').value=d.file||'';
+})();
 function saveMemo(){
   localStorage.setItem('wk_memo',JSON.stringify({
     name:document.getElementById('memo-name').value,
