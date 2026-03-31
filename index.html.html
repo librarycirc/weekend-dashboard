@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weekend Library Dashboard</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a4f8a;--blue-mid:#2563a8;--blue-light:#dbeafe;--blue-pale:#f0f6ff;
+  --red:#b91c1c;--red-light:#fef2f2;--red-border:#fca5a5;
+  --green:#15803d;--green-light:#f0fdf4;
+  --amber:#92400e;--amber-light:#fffbeb;
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg:#f1f5f9;--surface:#fff;
+  --r:10px;--rl:16px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;padding:1.5rem 1rem 3rem}
+.wrap{max-width:780px;margin:0 auto}
+
+/* HEADER */
+.hdr{background:var(--blue);color:#fff;border-radius:var(--rl);padding:1.4rem 1.75rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hdr h1{font-size:19px;font-weight:700}
+.hdr p{font-size:13px;opacity:.78;margin-top:2px}
+.hdr-clock{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:var(--r);padding:6px 14px;font-size:14px;font-weight:600}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.card-title{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:1rem;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.card-title .ic{width:28px;height:28px;background:var(--blue-light);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tab{flex:1;padding:8px;font-size:13px;font-weight:600;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit}
+.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{display:none}.panel.active{display:block}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead tr{background:var(--blue-pale)}
+th{padding:9px 12px;text-align:left;font-weight:600;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td{padding:9px 12px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--blue-pale)}
+.sb{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px}
+.sm{background:#fef9c3;color:#854d0e}.sa{background:var(--blue-light);color:var(--blue)}.se{background:#ede9fe;color:#5b21b6}
+
+/* ALERT */
+.alert{border:2px solid var(--red-border);background:var(--red-light);border-radius:var(--rl);padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.alert-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.alert-ico{width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-hdr h2{font-size:15px;font-weight:700;color:var(--red)}
+.alert-hdr p{font-size:12px;color:#991b1b;margin-top:1px}
+.alert-rule{background:#fff;border:1px solid var(--red-border);border-radius:var(--r);padding:10px 14px;font-size:14px;color:var(--red);font-weight:600;margin-bottom:12px}
+.script-btn{display:flex;align-items:center;gap:8px;padding:9px 16px;background:var(--red);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.script-btn:hover{background:#991b1b}
+.script-box{display:none;margin-top:12px;background:#fff;border:1px solid var(--red-border);border-radius:var(--r);padding:14px 16px;font-size:14px;line-height:1.7;color:var(--text)}
+.script-box.open{display:block}
+.script-box strong{color:var(--red)}
+
+/* SCANNER */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
+.step.done{background:var(--green-light);border-color:#86efac}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s}
+.step.done .step-num{background:var(--green);color:#fff}
+.step-title{font-size:14px;font-weight:600;color:var(--text)}
+.step.done .step-title{color:var(--green);text-decoration:line-through}
+.step-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.step-chk{font-size:18px;color:var(--green);display:none;margin-left:auto;flex-shrink:0}
+.step.done .step-chk{display:block}
+.reset-btn{margin-top:12px;font-size:13px;font-weight:500;padding:7px 14px;background:var(--blue-pale);color:var(--blue);border:1px solid var(--blue-light);border-radius:var(--r);cursor:pointer;font-family:inherit;transition:background .15s}
+.reset-btn:hover{background:var(--blue-light)}
+
+/* CHECKLIST */
+.prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.prog-lbl{font-size:13px;color:var(--muted)}
+.prog-wrap{background:var(--border);border-radius:20px;height:6px;margin-bottom:18px;overflow:hidden}
+.prog-fill{height:6px;border-radius:20px;background:var(--blue);transition:width .3s}
+.cg{margin-bottom:20px}.cg:last-child{margin-bottom:0}
+.cg-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.ci{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.ci:last-child{border-bottom:none}
+.ci:hover .cl{color:var(--blue)}
+.cb{width:20px;height:20px;border-radius:5px;border:2px solid #cbd5e1;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.cb.checked{background:var(--blue);border-color:var(--blue)}
+.cb.checked::after{content:'';width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px);display:block}
+.cl{font-size:14px;color:var(--text);flex:1}
+.cl.done{text-decoration:line-through;color:#94a3b8}
+.ct{font-size:11px;color:var(--green);font-weight:600;white-space:nowrap}
+
+/* EMERGENCY */
+.em-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.em-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 16px;border-radius:var(--r);border:none;cursor:pointer;font-family:inherit;text-decoration:none;transition:filter .15s,transform .1s}
+.em-btn:active{transform:scale(.97)}
+.em-btn:hover{filter:brightness(.93)}
+.em-red{background:var(--red);color:#fff}
+.em-blue{background:var(--blue);color:#fff}
+.em-gray{background:#475569;color:#fff}
+.em-teal{background:#0f766e;color:#fff}
+.em-lbl{font-size:14px;font-weight:700}
+.em-ext{font-size:18px;font-weight:800;margin:2px 0;letter-spacing:.02em}
+.em-note{font-size:11px;opacity:.8}
+
+/* MEMO */
+.memo-meta{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.memo-meta input{flex:1;min-width:140px;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit}
+.memo-meta input:focus{outline:none;border-color:var(--blue)}
+textarea{width:100%;min-height:120px;padding:10px 12px;font-size:14px;line-height:1.7;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;resize:vertical}
+textarea:focus{outline:none;border-color:var(--blue)}
+.memo-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:10px}
+.memo-saved{font-size:12px;color:var(--green);font-weight:500;display:none;margin-right:auto}
+.btn{padding:8px 18px;font-size:13px;font-weight:600;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:inherit;transition:background .15s}
+.btn:hover{background:var(--bg)}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-primary:hover{background:var(--blue-mid);border-color:var(--blue-mid)}
+
+/* BANNER */
+.banner{background:var(--blue);color:#fff;border-radius:var(--rl);padding:1.5rem 1.75rem;text-align:center;margin-top:.25rem}
+.banner .star{font-size:26px;margin-bottom:6px}
+.banner p{font-size:16px;font-weight:700}
+.banner small{font-size:13px;opacity:.75;display:block;margin-top:4px}
+
+@media(max-width:500px){body{padding:1rem .75rem 2.5rem}.hdr{padding:1.25rem}.card{padding:1rem 1.1rem}.em-ext{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div>
+      <h1>📚 Weekend Library Dashboard</h1>
+      <p id="date-lbl">Loading…</p>
+    </div>
+    <div class="hdr-clock" id="clock">--:--</div>
+  </header>
+
+  <!-- SCHEDULE -->
+  <div class="card">
+    <div class="card-title"><span class="ic">🗓</span> Weekend Shift Schedule</div>
+    <div class="tabs">
+      <button class="tab active" onclick="showDay('sat',this)">Saturday</button>
+      <button class="tab" onclick="showDay('sun',this)">Sunday</button>
+    </div>
+
+    <div class="panel active" id="panel-sat">
+      <table>
+        <thead><tr><th>Time</th><th>Student(s)</th><th>Shift</th></tr></thead>
+        <tbody>
+          <tr><td>12:00 PM – 3:00 PM</td><td>Carol &amp; Sarzhan</td><td><span class="sb sa">Afternoon</span></td></tr>
+          <tr><td>3:00 PM – 5:00 PM</td><td>Haruka &amp; Chloe</td><td><span class="sb sa">Afternoon</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel" id="panel-sun">
+      <table>
+        <thead><tr><th>Time</th><th>Student(s)</th><th>Shift</th></tr></thead>
+        <tbody>
+          <tr><td>12:00 PM – 3:00 PM</td><td>Daiki &amp; Eselasie</td><td><span class="sb sa">Afternoon</span></td></tr>
+          <tr><td>3:00 PM – 6:00 PM</td><td>Kenji &amp; Sia</td><td><span class="sb sa">Afternoon</span></td></tr>
+          <tr><td>6:00 PM – 8:00 PM</td><td>Kazuya, Yuka &amp; Chloe</td><td><span class="sb se">Evening</span></td></tr>
+          <tr><td>8:00 PM – 10:00 PM</td><td>Kazuya &amp; Chloe</td><td><span class="sb se">Evening</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMMUNITY ACCESS POLICY -->
+  <div class="alert">
+    <div class="alert-hdr">
+      <div class="alert-ico">⚠</div>
+      <div>
+        <h2>Community Access Policy — HIGH PRIORITY</h2>
+        <p>Read carefully before your shift begins</p>
+      </div>
+    </div>
+    <div class="alert-rule">
+      🚫 Community members are ONLY allowed Mon – Fri, 9:00 AM – 5:00 PM.<br>
+      On weekends, politely but firmly deny entry.
+    </div>
+    <button class="script-btn" onclick="toggleScript(this)">
+      💬 Show Polite Denial Script
+    </button>
+    <div class="script-box" id="script-box">
+      <strong>What to say:</strong><br><br>
+      "Hi there! Thank you for visiting the library today. Unfortunately, our <strong>Community Access Program</strong> is only available <strong>Monday through Friday, 9 AM to 5 PM</strong>. We aren't able to grant community member access on weekends.<br><br>
+      If you're a currently enrolled student or faculty, I'd be happy to assist you. Otherwise, please feel free to come back during our community access hours — we'd love to see you then!"<br><br>
+      <strong>If they push back:</strong><br>
+      "I completely understand, and I'm sorry for the inconvenience. This is a university policy I'm required to enforce. If you'd like to speak with a supervisor, you're welcome to contact us Monday morning."
+    </div>
+  </div>
+
+  <!-- SCANNER TROUBLESHOOTING -->
+  <div class="card">
+    <div class="card-title"><span class="ic">🔧</span> Scanner Troubleshooting Guide</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">If the book scanner stops working, follow these steps in order. Click each step to mark it complete.</p>
+    <div class="steps">
+      <div class="step" onclick="toggleStep(this)">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Exit the scanner application</div>
+          <div class="step-desc">Close the scanning software completely (File → Exit or click ✕). Then reopen it from the desktop icon.</div>
+        </div>
+        <div class="step-chk">✓</div>
+      </div>
+      <div class="step" onclick="toggleStep(this)">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Close all open windows</div>
+          <div class="step-desc">Close every program and browser tab. Wait 10 seconds to clear memory before proceeding.</div>
+        </div>
+        <div class="step-chk">✓</div>
+      </div>
+      <div class="step" onclick="toggleStep(this)">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Restart the computer</div>
+          <div class="step-desc">Do a full restart (not sleep). Log back in, reopen the software. If still failing, contact Campus Security.</div>
+        </div>
+        <div class="step-chk">✓</div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetSteps()">↺ Reset all steps</button>
+  </div>
+
+  <!-- TASK CHECKLIST -->
+  <div class="card">
+    <div class="card-title"><span class="ic">✅</span> Weekend Task Checklist</div>
+    <div class="prog-row">
+      <span class="prog-lbl" id="prog-txt">0 of 0 tasks complete</span>
+      <span class="prog-lbl" id="prog-pct" style="font-weight:600;color:var(--blue)">0%</span>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
+
+    <div class="cg">
+      <div class="cg-title">📥 Book Drop &amp; Returns</div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Empty the book drop box</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Check in all returned items in the system</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Shelve returned books in call number order</span><span class="ct"></span></div>
+    </div>
+
+    <div class="cg">
+      <div class="cg-title">📦 New Books Processing</div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Put covers on new books</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Stamp new books (ownership stamp on designated pages)</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Apply donation stamp on donated books</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Shelve processed books</span><span class="ct"></span></div>
+    </div>
+
+    <div class="cg">
+      <div class="cg-title">🔒 Closing Procedures</div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Move hot water maker &amp; carafe to the kitchen</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Lock DVD drawers</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Collect lost &amp; found items — place in designated box</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Do a final walk-through — ensure all patrons have left</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Close down all computers</span><span class="ct"></span></div>
+      <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Lock circulation desk &amp; all entry doors</span><span class="ct"></span></div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY CONTACTS -->
+  <div class="card">
+    <div class="card-title"><span class="ic">🚨</span> Emergency Contacts</div>
+    <div class="em-grid">
+      <a class="em-btn em-red" href="tel:4100">
+        <span class="em-lbl">Campus Security</span>
+        <span class="em-ext">#4100</span>
+        <span class="em-note">Disturbances · Lockouts · Emergencies</span>
+      </a>
+      <a class="em-btn em-teal" href="https://teams.microsoft.com" target="_blank">
+        <span class="em-lbl">Contact Supervisor</span>
+        <span class="em-ext">MS Teams</span>
+        <span class="em-note">Message for non-emergency questions</span>
+      </a>
+      <a class="em-btn em-gray" href="tel:911">
+        <span class="em-lbl">Emergency Services</span>
+        <span class="em-ext">911</span>
+        <span class="em-note">Fire · Medical · Police</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- STACK MANAGEMENT PROJECT -->
+  <div class="card">
+    <div class="card-title"><span class="ic">📚</span> Stack Management Project</div>
+    <div class="prog-row">
+      <span class="prog-lbl" id="smp-txt">0 of 3 tasks complete</span>
+      <span class="prog-lbl" id="smp-pct" style="font-weight:600;color:var(--blue)">0%</span>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="smp-bar" style="width:0%"></div></div>
+
+    <div class="cg" style="margin-bottom:0">
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Shelf reading — check books are in correct call number order</span><span class="ct"></span></div>
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Report damaged books — set aside &amp; note titles for coordinator</span><span class="ct"></span></div>
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Section space management — shift books to clear overcrowded shelves</span><span class="ct"></span></div>
+    </div>
+  </div>
+
+  <!-- MONDAY HANDOVER MEMO -->
+  <div class="card">
+    <div class="card-title"><span class="ic">📝</span> Monday Handover Memo</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Leave a note for your coordinator to read first thing Monday morning. Your note saves automatically in the browser.</p>
+    <div class="memo-meta">
+      <input type="text" id="memo-name" placeholder="Your name"/>
+      <input type="text" id="memo-date" placeholder="Date (e.g. Sat, Mar 29)"/>
+    </div>
+    <textarea id="memo-text" placeholder="Write anything the coordinator should know — incidents, missing items, patron issues, low supplies, maintenance needed, etc."></textarea>
+    <div class="memo-actions">
+      <span class="memo-saved" id="memo-saved">✓ Saved to browser</span>
+      <button class="btn" onclick="clearMemo()">Clear</button>
+      <button class="btn btn-primary" onclick="saveMemo()">Save Note</button>
+    </div>
+  </div>
+
+  <!-- MOTIVATION BANNER -->
+  <div class="banner">
+    <div class="star">⭐</div>
+    <p>You've got this! Thanks for keeping the library running this weekend!</p>
+    <small>Your hard work makes a difference — the coordinator appreciates you.</small>
+  </div>
+
+</div>
+<script>
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function updateClock(){
+  const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM',h12=h%12||12;
+  document.getElementById('clock').textContent=h12+':'+String(m).padStart(2,'0')+' '+ampm;
+  document.getElementById('date-lbl').textContent=DAYS[n.getDay()]+', '+MONTHS[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
+}
+updateClock();setInterval(updateClock,30000);
+
+function showDay(day,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+day).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleScript(btn){
+  const b=document.getElementById('script-box');
+  b.classList.toggle('open');
+  btn.textContent=b.classList.contains('open')?'🙈 Hide Script':'💬 Show Polite Denial Script';
+}
+
+function toggleStep(el){el.classList.toggle('done');}
+function resetSteps(){document.querySelectorAll('.step').forEach(s=>s.classList.remove('done'));}
+
+const total=document.querySelectorAll('.ci').length;
+let done=0;
+const smpTotal=3;let smpDone=0;
+function chkSmp(item){
+  const cb=item.querySelector('.cb'),cl=item.querySelector('.cl'),ct=item.querySelector('.ct');
+  const checked=cb.classList.toggle('checked');
+  cl.classList.toggle('done',checked);
+  smpDone=checked?smpDone+1:smpDone-1;
+  const pct=Math.round(smpDone/smpTotal*100);
+  document.getElementById('smp-bar').style.width=pct+'%';
+  document.getElementById('smp-txt').textContent=smpDone+' of '+smpTotal+' tasks complete';
+  document.getElementById('smp-pct').textContent=pct+'%';
+  if(checked){const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM';ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ampm;}else{ct.textContent='';}
+}
+function updateProg(){
+  const pct=Math.round(done/total*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=done+' of '+total+' tasks complete';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+updateProg();
+
+function chk(item){
+  const cb=item.querySelector('.cb'),cl=item.querySelector('.cl'),ct=item.querySelector('.ct');
+  const checked=cb.classList.toggle('checked');
+  cl.classList.toggle('done',checked);
+  done=checked?done+1:done-1;
+  if(checked){
+    const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM';
+    ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ampm;
+  } else { ct.textContent=''; }
+  updateProg();
+}
+
+function saveMemo(){
+  localStorage.setItem('wk_memo',JSON.stringify({
+    name:document.getElementById('memo-name').value,
+    date:document.getElementById('memo-date').value,
+    text:document.getElementById('memo-text').value
+  }));
+  const el=document.getElementById('memo-saved');
+  el.style.display='inline';
+  setTimeout(()=>el.style.display='none',2500);
+}
+function clearMemo(){
+  ['memo-name','memo-date','memo-text'].forEach(id=>document.getElementById(id).value='');
+  localStorage.removeItem('wk_memo');
+}
+(function loadMemo(){
+  const s=localStorage.getItem('wk_memo');
+  if(!s)return;
+  const d=JSON.parse(s);
+  document.getElementById('memo-name').value=d.name||'';
+  document.getElementById('memo-date').value=d.date||'';
+  document.getElementById('memo-text').value=d.text||'';
+})();
+</script>
+</body>
+</html>
