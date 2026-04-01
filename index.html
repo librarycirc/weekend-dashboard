@@ -10,7 +10,7 @@
   --blue:#1a4f8a;--blue-mid:#2563a8;--blue-light:#dbeafe;--blue-pale:#f0f6ff;
   --red:#b91c1c;--red-light:#fef2f2;--red-border:#fca5a5;
   --green:#15803d;--green-light:#f0fdf4;
-  --amber:#92400e;--amber-light:#fffbeb;
+  --teal:#0f766e;
   --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg:#f1f5f9;--surface:#fff;
   --r:10px;--rl:16px;
 }
@@ -42,7 +42,7 @@ td{padding:9px 12px;border-bottom:1px solid var(--border)}
 tr:last-child td{border-bottom:none}
 tbody tr:hover{background:var(--blue-pale)}
 .sb{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px}
-.sm{background:#fef9c3;color:#854d0e}.sa{background:var(--blue-light);color:var(--blue)}.se{background:#ede9fe;color:#5b21b6}
+.sa{background:var(--blue-light);color:var(--blue)}.se{background:#ede9fe;color:#5b21b6}
 
 /* ALERT */
 .alert{border:2px solid var(--red-border);background:var(--red-light);border-radius:var(--rl);padding:1.25rem 1.5rem;margin-bottom:1.25rem}
@@ -96,31 +96,41 @@ tbody tr:hover{background:var(--blue-pale)}
 .em-red{background:var(--red);color:#fff}
 .em-blue{background:var(--blue);color:#fff}
 .em-gray{background:#475569;color:#fff}
-.em-teal{background:#0f766e;color:#fff}
+.em-teal{background:var(--teal);color:#fff}
 .em-lbl{font-size:14px;font-weight:700}
 .em-ext{font-size:18px;font-weight:800;margin:2px 0;letter-spacing:.02em}
 .em-note{font-size:11px;opacity:.8}
 
-/* MEMO */
-.memo-meta{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.memo-meta input{flex:1;min-width:140px;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit}
-.memo-meta input:focus{outline:none;border-color:var(--blue)}
-textarea{width:100%;min-height:120px;padding:10px 12px;font-size:14px;line-height:1.7;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;resize:vertical}
+/* INPUTS */
+.field-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px}
+input[type=text]{width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit}
+input[type=text]:focus{outline:none;border-color:var(--blue)}
+textarea{width:100%;min-height:110px;padding:10px 12px;font-size:14px;line-height:1.7;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;resize:vertical}
 textarea:focus{outline:none;border-color:var(--blue)}
-.memo-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:10px}
-.memo-saved{font-size:12px;color:var(--green);font-weight:500;display:none;margin-right:auto}
+
+/* BUTTONS */
 .btn{padding:8px 18px;font-size:13px;font-weight:600;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:inherit;transition:background .15s}
 .btn:hover{background:var(--bg)}
 .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
 .btn-primary:hover{background:var(--blue-mid);border-color:var(--blue-mid)}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:#0d6460}
+.actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:10px;flex-wrap:wrap}
+.saved-msg{font-size:12px;color:var(--green);font-weight:500;display:none;margin-right:auto}
+
+/* REPORT SUMMARY BOX */
+.report-box{background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.8;color:var(--text);white-space:pre-wrap;display:none;font-family:monospace}
+.report-box.visible{display:block}
+.copy-guide{font-size:12px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;margin-top:10px;display:none}
+.copy-guide.visible{display:flex;align-items:center;gap:8px}
+.copy-ok{font-size:12px;color:var(--green);font-weight:600;display:none;margin-left:auto}
 
 /* BANNER */
 .banner{background:var(--blue);color:#fff;border-radius:var(--rl);padding:1.5rem 1.75rem;text-align:center;margin-top:.25rem}
-.banner .star{font-size:26px;margin-bottom:6px}
 .banner p{font-size:16px;font-weight:700}
 .banner small{font-size:13px;opacity:.75;display:block;margin-top:4px}
 
-@media(max-width:500px){body{padding:1rem .75rem 2.5rem}.hdr{padding:1.25rem}.card{padding:1rem 1.1rem}.em-ext{font-size:15px}}
+@media(max-width:500px){body{padding:1rem .75rem 2.5rem}.hdr{padding:1.25rem}.card{padding:1rem 1.1rem}}
 </style>
 </head>
 <body>
@@ -142,7 +152,6 @@ textarea:focus{outline:none;border-color:var(--blue)}
       <button class="tab active" onclick="showDay('sat',this)">Saturday</button>
       <button class="tab" onclick="showDay('sun',this)">Sunday</button>
     </div>
-
     <div class="panel active" id="panel-sat">
       <table>
         <thead><tr><th>Time</th><th>Student(s)</th><th>Shift</th></tr></thead>
@@ -152,7 +161,6 @@ textarea:focus{outline:none;border-color:var(--blue)}
         </tbody>
       </table>
     </div>
-
     <div class="panel" id="panel-sun">
       <table>
         <thead><tr><th>Time</th><th>Student(s)</th><th>Shift</th></tr></thead>
@@ -175,13 +183,8 @@ textarea:focus{outline:none;border-color:var(--blue)}
         <p>Read carefully before your shift begins</p>
       </div>
     </div>
-    <div class="alert-rule">
-      🚫 Community members are ONLY allowed Mon – Fri, 9:00 AM – 5:00 PM.<br>
-      On weekends, politely but firmly deny entry.
-    </div>
-    <button class="script-btn" onclick="toggleScript(this)">
-      💬 Show Polite Denial Script
-    </button>
+    <div class="alert-rule">🚫 Community members are ONLY allowed Mon – Fri, 9:00 AM – 5:00 PM.<br>On weekends, politely but firmly deny entry.</div>
+    <button class="script-btn" onclick="toggleScript(this)">💬 Show Polite Denial Script</button>
     <div class="script-box" id="script-box">
       <strong>What to say:</strong><br><br>
       "Hi there! Thank you for visiting the library today. Unfortunately, our <strong>Community Access Program</strong> is only available <strong>Monday through Friday, 9 AM to 5 PM</strong>. We aren't able to grant community member access on weekends.<br><br>
@@ -196,28 +199,19 @@ textarea:focus{outline:none;border-color:var(--blue)}
     <div class="card-title"><span class="ic">🔧</span> Scanner Troubleshooting Guide</div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">If the book scanner stops working, follow these steps in order. Click each step to mark it complete.</p>
     <div class="steps">
-      <div class="step" onclick="toggleStep(this)">
+      <div class="step" id="step1" onclick="toggleStep(this)">
         <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Exit the scanner application</div>
-          <div class="step-desc">Close the scanning software completely (File → Exit or click ✕). Then reopen it from the desktop icon.</div>
-        </div>
+        <div><div class="step-title">Exit the scanner application</div><div class="step-desc">Close the scanning software completely (File → Exit or click ✕). Then reopen it from the desktop icon.</div></div>
         <div class="step-chk">✓</div>
       </div>
-      <div class="step" onclick="toggleStep(this)">
+      <div class="step" id="step2" onclick="toggleStep(this)">
         <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Close all open windows</div>
-          <div class="step-desc">Close every program and browser tab. Wait 10 seconds to clear memory before proceeding.</div>
-        </div>
+        <div><div class="step-title">Close all open windows</div><div class="step-desc">Close every program and browser tab. Wait 10 seconds to clear memory before proceeding.</div></div>
         <div class="step-chk">✓</div>
       </div>
-      <div class="step" onclick="toggleStep(this)">
+      <div class="step" id="step3" onclick="toggleStep(this)">
         <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Restart the computer</div>
-          <div class="step-desc">Do a full restart (not sleep). Log back in, reopen the software. If still failing, contact Campus Security.</div>
-        </div>
+        <div><div class="step-title">Restart the computer</div><div class="step-desc">Do a full restart (not sleep). Log back in, reopen the software. If still failing, contact Campus Security.</div></div>
         <div class="step-chk">✓</div>
       </div>
     </div>
@@ -239,7 +233,6 @@ textarea:focus{outline:none;border-color:var(--blue)}
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Check in all returned items in the system</span><span class="ct"></span></div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Shelve returned books in call number order</span><span class="ct"></span></div>
     </div>
-
     <div class="cg">
       <div class="cg-title">📦 New Books Processing</div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Put covers on new books</span><span class="ct"></span></div>
@@ -247,7 +240,6 @@ textarea:focus{outline:none;border-color:var(--blue)}
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Apply donation stamp on donated books</span><span class="ct"></span></div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Shelve processed books</span><span class="ct"></span></div>
     </div>
-
     <div class="cg">
       <div class="cg-title">🔒 Closing Procedures</div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Move hot water maker &amp; carafe to the kitchen</span><span class="ct"></span></div>
@@ -256,6 +248,64 @@ textarea:focus{outline:none;border-color:var(--blue)}
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Do a final walk-through — ensure all patrons have left</span><span class="ct"></span></div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Close down all computers</span><span class="ct"></span></div>
       <div class="ci" onclick="chk(this)"><div class="cb"></div><span class="cl">Lock circulation desk &amp; all entry doors</span><span class="ct"></span></div>
+    </div>
+  </div>
+
+  <!-- STACK MANAGEMENT PROJECT -->
+  <div class="card">
+    <div class="card-title"><span class="ic">📚</span> Stack Management Project</div>
+    <div class="prog-row">
+      <span class="prog-lbl" id="smp-txt">0 of 3 tasks complete</span>
+      <span class="prog-lbl" id="smp-pct" style="font-weight:600;color:var(--blue)">0%</span>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="smp-bar" style="width:0%"></div></div>
+    <div class="cg" style="margin-bottom:0">
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Shelf reading — check books are in correct call number order</span><span class="ct"></span></div>
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Report damaged books — set aside &amp; note titles for coordinator</span><span class="ct"></span></div>
+      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Section space management — shift books to clear overcrowded shelves</span><span class="ct"></span></div>
+    </div>
+  </div>
+
+  <!-- ISSUE & INCIDENT REPORT -->
+  <div class="card">
+    <div class="card-title"><span class="ic">🔴</span> Issue &amp; Incident Report</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">If you find any facility damage or equipment failure, take a photo and post it directly to the library MS Teams channel. Then fill in the details below.</p>
+    <a class="em-btn em-teal" href="https://teams.microsoft.com" target="_blank" style="display:inline-flex;flex-direction:row;align-items:center;gap:10px;padding:11px 18px;border-radius:var(--r);margin-bottom:18px;text-decoration:none;font-family:inherit;">
+      <span style="font-size:18px;">📸</span>
+      <div><div style="font-size:13px;font-weight:700;">Post Photo on MS Teams</div><div style="font-size:11px;opacity:.8;">Upload to the library weekend channel</div></div>
+    </a>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+      <div><label class="field-label">Location</label><input id="issue-loc" type="text" placeholder="e.g. 2F Reading Room, Scanner, Entrance"></div>
+      <div><label class="field-label">Description</label><input id="issue-desc" type="text" placeholder="e.g. Ceiling light flickering, chair leg broken"></div>
+      <div><label class="field-label">Teams Message / File Name</label><input id="issue-file" type="text" placeholder="e.g. Posted in #weekend-library, IMG_0423.jpg"></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:var(--r);padding:9px 12px;">
+      💡 Post the photo on MS Teams first, then fill in the fields above. This report will be included in your end-of-day summary.
+    </p>
+  </div>
+
+  <!-- MONDAY HANDOVER MEMO -->
+  <div class="card">
+    <div class="card-title"><span class="ic">📝</span> Monday Handover &amp; End-of-Day Report</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Write any notes for your coordinator below, then use the <strong>Generate &amp; Copy Report</strong> button to compile everything into one message ready to paste into MS Teams.</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+      <div><label class="field-label">Your Name</label><input id="memo-name" type="text" placeholder="Your name"></div>
+      <div><label class="field-label">Additional Notes for Monday</label><textarea id="memo-text" placeholder="Any other things the coordinator should know — low supplies, patron incidents, maintenance needed, etc."></textarea></div>
+    </div>
+
+    <!-- REPORT PREVIEW -->
+    <div class="report-box" id="report-box"></div>
+    <div class="copy-guide" id="copy-guide">
+      <span>📋</span>
+      <span>Report copied! Open MS Teams and paste with <strong>Ctrl+V</strong> (or ⌘+V on Mac).</span>
+      <span class="copy-ok" id="copy-ok">✓ Copied!</span>
+    </div>
+
+    <div class="actions" style="margin-top:14px;">
+      <button class="btn" onclick="clearAll()">Clear All</button>
+      <button class="btn btn-primary" onclick="previewReport()">👁 Preview Report</button>
+      <button class="btn btn-teal" onclick="copyReport()">📋 Generate &amp; Copy for Teams</button>
     </div>
   </div>
 
@@ -281,80 +331,9 @@ textarea:focus{outline:none;border-color:var(--blue)}
     </div>
   </div>
 
-  <!-- STACK MANAGEMENT PROJECT -->
-  <div class="card">
-    <div class="card-title"><span class="ic">📚</span> Stack Management Project</div>
-    <div class="prog-row">
-      <span class="prog-lbl" id="smp-txt">0 of 3 tasks complete</span>
-      <span class="prog-lbl" id="smp-pct" style="font-weight:600;color:var(--blue)">0%</span>
-    </div>
-    <div class="prog-wrap"><div class="prog-fill" id="smp-bar" style="width:0%"></div></div>
-
-    <div class="cg" style="margin-bottom:0">
-      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Shelf reading — check books are in correct call number order</span><span class="ct"></span></div>
-      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Report damaged books — set aside &amp; note titles for coordinator</span><span class="ct"></span></div>
-      <div class="ci" onclick="chkSmp(this)"><div class="cb"></div><span class="cl">Section space management — shift books to clear overcrowded shelves</span><span class="ct"></span></div>
-    </div>
-  </div>
-
-  <!-- ISSUE & INCIDENT REPORT -->
-  <div class="card">
-    <div class="card-title"><span class="ic">🔴</span> Issue &amp; Incident Report</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">If you find any facility damage or equipment failure, take a photo and post it directly to the library MS Teams channel. Then fill in the details below and save.</p>
-
-    <a class="em-btn em-teal" href="https://teams.microsoft.com" target="_blank" style="display:inline-flex;flex-direction:row;align-items:center;gap:10px;padding:11px 18px;border-radius:var(--r);margin-bottom:18px;text-decoration:none;font-family:inherit;">
-      <span style="font-size:18px;">📸</span>
-      <div>
-        <div style="font-size:13px;font-weight:700;">Post Photo on MS Teams</div>
-        <div style="font-size:11px;opacity:.8;">Upload to the library weekend channel</div>
-      </div>
-    </a>
-
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Location</label>
-        <input id="issue-loc" type="text" placeholder="e.g. 2F Reading Room, Scanner, Entrance" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Description</label>
-        <input id="issue-desc" type="text" placeholder="e.g. Ceiling light flickering, chair leg broken" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px;">Teams Message / File Name</label>
-        <input id="issue-file" type="text" placeholder="e.g. Posted in #weekend-library, IMG_0423.jpg" style="width:100%;padding:8px 12px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:inherit;">
-      </div>
-    </div>
-
-    <p style="font-size:12px;color:var(--muted);background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;">
-      💡 Post the photo on MS Teams first, then fill in the fields above and click <strong>Save Report</strong>. Your entry will be stored in the browser so the coordinator can review it on Monday morning.
-    </p>
-
-    <div class="memo-actions">
-      <span class="memo-saved" id="issue-saved">✓ Report saved to browser</span>
-      <button class="btn" onclick="clearIssue()">Clear</button>
-      <button class="btn btn-primary" onclick="saveIssue()">Save Report</button>
-    </div>
-  </div>
-
-  <!-- MONDAY HANDOVER MEMO -->
-  <div class="card">
-    <div class="card-title"><span class="ic">📝</span> Monday Handover Memo</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Leave a note for your coordinator to read first thing Monday morning. Your note saves automatically in the browser.</p>
-    <div class="memo-meta">
-      <input type="text" id="memo-name" placeholder="Your name"/>
-      <input type="text" id="memo-date" placeholder="Date (e.g. Sat, Mar 29)"/>
-    </div>
-    <textarea id="memo-text" placeholder="Write anything the coordinator should know — incidents, missing items, patron issues, low supplies, maintenance needed, etc."></textarea>
-    <div class="memo-actions">
-      <span class="memo-saved" id="memo-saved">✓ Saved to browser</span>
-      <button class="btn" onclick="clearMemo()">Clear</button>
-      <button class="btn btn-primary" onclick="saveMemo()">Save Note</button>
-    </div>
-  </div>
-
   <!-- MOTIVATION BANNER -->
   <div class="banner">
-    <div class="star">⭐</div>
+    <div style="font-size:26px;margin-bottom:6px;">⭐</div>
     <p>You've got this! Thanks for keeping the library running this weekend!</p>
     <small>Your hard work makes a difference — the coordinator appreciates you.</small>
   </div>
@@ -365,16 +344,16 @@ const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 function updateClock(){
-  const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM',h12=h%12||12;
-  document.getElementById('clock').textContent=h12+':'+String(m).padStart(2,'0')+' '+ampm;
+  const n=new Date(),h=n.getHours(),m=n.getMinutes(),ap=h>=12?'PM':'AM',h12=h%12||12;
+  document.getElementById('clock').textContent=h12+':'+String(m).padStart(2,'0')+' '+ap;
   document.getElementById('date-lbl').textContent=DAYS[n.getDay()]+', '+MONTHS[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
 }
 updateClock();setInterval(updateClock,30000);
 
-function showDay(day,btn){
+function showDay(d,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+day).classList.add('active');
+  document.getElementById('panel-'+d).classList.add('active');
   btn.classList.add('active');
 }
 
@@ -387,8 +366,34 @@ function toggleScript(btn){
 function toggleStep(el){el.classList.toggle('done');}
 function resetSteps(){document.querySelectorAll('.step').forEach(s=>s.classList.remove('done'));}
 
+function scannerStatus(){
+  const done=[...document.querySelectorAll('.step')].filter(s=>s.classList.contains('done')).length;
+  if(done===0)return'No issues / not used';
+  if(done===3)return'Issue resolved after full restart';
+  return'Troubleshooting in progress ('+done+'/3 steps done)';
+}
+
+/* MAIN CHECKLIST */
 const total=document.querySelectorAll('.ci').length;
 let done=0;
+function updateProg(){
+  const pct=Math.round(done/total*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=done+' of '+total+' tasks complete';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+updateProg();
+function chk(item){
+  const cb=item.querySelector('.cb'),cl=item.querySelector('.cl'),ct=item.querySelector('.ct');
+  const checked=cb.classList.toggle('checked');
+  cl.classList.toggle('done',checked);
+  done=checked?done+1:done-1;
+  if(checked){const n=new Date(),h=n.getHours(),m=n.getMinutes(),ap=h>=12?'PM':'AM';ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ap;}
+  else ct.textContent='';
+  updateProg();
+}
+
+/* STACK MANAGEMENT */
 const smpTotal=3;let smpDone=0;
 function chkSmp(item){
   const cb=item.querySelector('.cb'),cl=item.querySelector('.cl'),ct=item.querySelector('.ct');
@@ -399,72 +404,110 @@ function chkSmp(item){
   document.getElementById('smp-bar').style.width=pct+'%';
   document.getElementById('smp-txt').textContent=smpDone+' of '+smpTotal+' tasks complete';
   document.getElementById('smp-pct').textContent=pct+'%';
-  if(checked){const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM';ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ampm;}else{ct.textContent='';}
+  if(checked){const n=new Date(),h=n.getHours(),m=n.getMinutes(),ap=h>=12?'PM':'AM';ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ap;}
+  else ct.textContent='';
 }
-function updateProg(){
-  const pct=Math.round(done/total*100);
-  document.getElementById('prog-bar').style.width=pct+'%';
-  document.getElementById('prog-txt').textContent=done+' of '+total+' tasks complete';
-  document.getElementById('prog-pct').textContent=pct+'%';
-}
-updateProg();
 
-function chk(item){
-  const cb=item.querySelector('.cb'),cl=item.querySelector('.cl'),ct=item.querySelector('.ct');
-  const checked=cb.classList.toggle('checked');
-  cl.classList.toggle('done',checked);
-  done=checked?done+1:done-1;
-  if(checked){
-    const n=new Date(),h=n.getHours(),m=n.getMinutes(),ampm=h>=12?'PM':'AM';
-    ct.textContent='✓ '+(h%12||12)+':'+String(m).padStart(2,'0')+' '+ampm;
-  } else { ct.textContent=''; }
+/* CHECKLIST SUMMARY */
+function checklistSummary(){
+  const items=[...document.querySelectorAll('.ci')];
+  const checkedLabels=items.filter(i=>i.querySelector('.cb').classList.contains('checked')).map(i=>i.querySelector('.cl').textContent.trim());
+  const unchecked=items.length-checkedLabels.length;
+  const pct=Math.round(checkedLabels.length/items.length*100);
+  let s='  '+pct+'% complete ('+checkedLabels.length+'/'+items.length+' tasks)\n';
+  if(unchecked>0){
+    const pending=items.filter(i=>!i.querySelector('.cb').classList.contains('checked')).map(i=>'  • '+i.querySelector('.cl').textContent.trim());
+    s+='  Pending:\n'+pending.join('\n');
+  }
+  return s;
+}
+
+function smpSummary(){
+  const items=[...document.querySelectorAll('#smp-bar').length?document.querySelectorAll('.cg .ci'):[]];
+  return smpDone+'/'+smpTotal+' tasks complete';
+}
+
+/* REPORT GENERATION */
+function buildReport(){
+  const n=new Date();
+  const dateStr=DAYS[n.getDay()]+', '+MONTHS[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
+  const name=document.getElementById('memo-name').value.trim()||'Student Worker';
+  const notes=document.getElementById('memo-text').value.trim()||'None';
+  const issueLoc=document.getElementById('issue-loc').value.trim()||'—';
+  const issueDesc=document.getElementById('issue-desc').value.trim()||'—';
+  const issueFile=document.getElementById('issue-file').value.trim()||'—';
+  const hasIssue=issueLoc!=='—'||issueDesc!=='—';
+
+  return[
+    '📅 Weekend Library Report',
+    '📆 Date: '+dateStr,
+    '👤 Reported by: '+name,
+    '',
+    '━━━━━━━━━━━━━━━━━━━━━━━━━',
+    '✅ TASK CHECKLIST',
+    checklistSummary(),
+    '',
+    '📚 STACK MANAGEMENT PROJECT',
+    '  '+smpDone+'/'+smpTotal+' tasks complete',
+    '',
+    '🔧 SCANNER STATUS',
+    '  '+scannerStatus(),
+    '',
+    '🔴 ISSUE & INCIDENT REPORT',
+    hasIssue
+      ?'  Location: '+issueLoc+'\n  Description: '+issueDesc+'\n  Photo/File: '+issueFile
+      :'  No issues reported.',
+    '',
+    '📝 NOTES FOR MONDAY',
+    '  '+notes,
+    '━━━━━━━━━━━━━━━━━━━━━━━━━',
+    'Have a great rest of your weekend! 🌟'
+  ].join('\n');
+}
+
+function previewReport(){
+  const box=document.getElementById('report-box');
+  box.textContent=buildReport();
+  box.classList.add('visible');
+  document.getElementById('copy-guide').classList.remove('visible');
+}
+
+function copyReport(){
+  const report=buildReport();
+  const box=document.getElementById('report-box');
+  box.textContent=report;
+  box.classList.add('visible');
+  navigator.clipboard.writeText(report).then(()=>{
+    const guide=document.getElementById('copy-guide');
+    const ok=document.getElementById('copy-ok');
+    guide.classList.add('visible');
+    ok.style.display='inline';
+    setTimeout(()=>{ok.style.display='none';},3000);
+  }).catch(()=>{
+    box.select&&box.select();
+    alert('Please manually copy the text in the box above (Ctrl+A then Ctrl+C).');
+  });
+}
+
+function clearAll(){
+  if(!confirm('Clear all fields and reset the checklist?'))return;
+  document.querySelectorAll('.cb').forEach(cb=>{
+    cb.classList.remove('checked');
+    const cl=cb.parentElement.querySelector('.cl');
+    const ct=cb.parentElement.querySelector('.ct');
+    if(cl)cl.classList.remove('done');
+    if(ct)ct.textContent='';
+  });
+  done=0;smpDone=0;
   updateProg();
+  document.getElementById('smp-bar').style.width='0%';
+  document.getElementById('smp-txt').textContent='0 of 3 tasks complete';
+  document.getElementById('smp-pct').textContent='0%';
+  resetSteps();
+  ['memo-name','memo-text','issue-loc','issue-desc','issue-file'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('report-box').classList.remove('visible');
+  document.getElementById('copy-guide').classList.remove('visible');
 }
-
-function saveIssue(){
-  localStorage.setItem('wk_issue',JSON.stringify({
-    loc:document.getElementById('issue-loc').value,
-    desc:document.getElementById('issue-desc').value,
-    file:document.getElementById('issue-file').value
-  }));
-  const el=document.getElementById('issue-saved');
-  el.style.display='inline';
-  setTimeout(()=>el.style.display='none',2500);
-}
-function clearIssue(){
-  ['issue-loc','issue-desc','issue-file'].forEach(id=>document.getElementById(id).value='');
-  localStorage.removeItem('wk_issue');
-}
-(function loadIssue(){
-  const s=localStorage.getItem('wk_issue');
-  if(!s)return;
-  const d=JSON.parse(s);
-  document.getElementById('issue-loc').value=d.loc||'';
-  document.getElementById('issue-desc').value=d.desc||'';
-  document.getElementById('issue-file').value=d.file||'';
-})();
-function saveMemo(){
-  localStorage.setItem('wk_memo',JSON.stringify({
-    name:document.getElementById('memo-name').value,
-    date:document.getElementById('memo-date').value,
-    text:document.getElementById('memo-text').value
-  }));
-  const el=document.getElementById('memo-saved');
-  el.style.display='inline';
-  setTimeout(()=>el.style.display='none',2500);
-}
-function clearMemo(){
-  ['memo-name','memo-date','memo-text'].forEach(id=>document.getElementById(id).value='');
-  localStorage.removeItem('wk_memo');
-}
-(function loadMemo(){
-  const s=localStorage.getItem('wk_memo');
-  if(!s)return;
-  const d=JSON.parse(s);
-  document.getElementById('memo-name').value=d.name||'';
-  document.getElementById('memo-date').value=d.date||'';
-  document.getElementById('memo-text').value=d.text||'';
-})();
 </script>
 </body>
 </html>
